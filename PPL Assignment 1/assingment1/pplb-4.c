@@ -1,0 +1,7 @@
+#include<stdio.h>
+int main()
+        {
+            int a, b, c;
+            b = (a + c + b) * (c + a);
+            return 0;
+        }

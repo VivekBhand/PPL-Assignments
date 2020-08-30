@@ -1,0 +1,14 @@
+1.The body  of AddTwo(x)  seems to  be inlined into  the call  of main
+ rendering the function useless (nobody else is calling it). Then why
+ is the definition of AddTwo(x) still there all the way till the last
+ pass (B-1.c.*.optimized)?
+
+
+ANS.
+The function remains in the program because the compiler doesn't have any idea bout it's usability. it may be useful or not, but it cannot be claimed on assurance of it being not useful till whole program is executed.
+
+2.Is there any way to get rid of it?
+
+
+ANS.
+If we use "static" as a prefix to the function, then it won,t be visible if it isn't called by any function. Also ,other use of static is that it will only define the function for this .c file only, making it non accessible to other files.

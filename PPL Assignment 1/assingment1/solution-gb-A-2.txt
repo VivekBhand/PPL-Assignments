@@ -1,0 +1,79 @@
+1.How have if-blocks  been translated into GIMPLE  statements? Can you
+ differentiate between conditional and unconditional gotos?
+ 
+ANS. The if-blocks are classified into diiferent sections. These sections are assigned diiferent labels, are jumped inbetween accordingly. The conditional gotos take account of the truth value of logic, while unconditional gotos do not refer with truth value and are performed anyway.
+ 
+	
+
+        
+2.Repeat  the  above compilation,  but  now  asking for another dump
+ that  of  the pass  "cfg". View  this  pass  and say  whether  this
+ representation makes it easier to  read and understand GIMPLEs. Draw
+ the control-flow graph  of the program A-2.c on a  piece of paper by
+ looking at the CFG dump.
+
+Compilation : gcc-4.7.2 -c -fdump-tree-cfg A-2.c
+
+View result : vi -O A-2.c A-2.c.*.cfg
+
+
+
+ANS. In this representation, the gotos are bit more clear, but the result has more lines of processes than its predecessor
+
+
+int Z;                                  |
+                                        |;; Function f (f, funcdef_no=0, decl_uid=1908, cgraph_uid=1, symbol_order=1)
+void f()                                |
+{                                       |;; 1 loops found
+        int a, b, c;                    |;;
+        a = Z;                          |;; Loop 0
+        if (a < 10) {                   |;;  header 0, latch 1
+                b = 5;                  |;;  depth 0, outer -1
+                c = 17;                 |;;  nodes: 0 1 2 3 4 5 6
+        } else {                        |;; 2 succs { 3 4 }
+                b = 6;                  |;; 3 succs { 6 }
+                c = 20;                 |;; 4 succs { 5 6 }
+                if (a == 0) {           |;; 5 succs { 6 }
+                        c = 0;          |;; 6 succs { 1 }
+                }                       |f ()
+        }                               |{
+        Z = b * 10 + c;                 |  int c;
+}                                       |  int b;
+                                        |  int a;
+~                                       |
+~                                       |  <bb 2> :
+~                                       |  a = Z;
+~                                       |  if (a <= 9)
+~                                       |    goto <bb 3>; [INV]
+~                                       |  else
+~                                       |    goto <bb 4>; [INV]
+~                                       |
+~                                       |  <bb 3> :
+~                                       |  b = 5;
+~                                       |  c = 17;
+~                                       |  goto <bb 6>; [INV]
+~                                       |
+~                                       |  <bb 4> :
+~                                       |  b = 6;
+~                                       |  c = 20;
+~                                       |  if (a == 0)
+~                                       |    goto <bb 5>; [INV]
+~                                       |  else
+~                                       |    goto <bb 6>; [INV]
+~                                       |
+~                                       |  <bb 5> :
+~                                       |  c = 0;
+~                                       |
+~                                       |  <bb 6> :
+~                                       |  _1 = b * 10;
+~                                       |  _2 = c + _1;
+~                                       |  Z = _2;
+~                                       |  return;
+A-2.c [RO]            19,0-1         All A-2.c.012t.cfg                                                                      1,0-1                
+        
+
+Additional Problem
+------------------
+
+Try to figure  out how GCC handles the  ternary operator [a ? b  : c] in GIMPLE.
+

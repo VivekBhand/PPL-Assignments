@@ -1,0 +1,41 @@
+1.What will happen if "a = a + N" is replaced by "a = a + 1"?
+
+
+
+ANS.
+ 
+It complier evaluates the final value of a and returns 14.
+The program was edited and tried with a name "pplb-2.c". And it gave following result.
+
+                                        |
+;; Function main (main, funcdef_no=12, d|;; Function main (main, funcdef_no=12, decl_uid=3090, cgraph_uid=13, symbol_order=13) (executed once)
+ecl_uid=3090, cgraph_uid=13, symbol_orde|
+r=13)                                   |main ()
+                                        |{
+main ()                                 |  int a;
+{                                       |  int i;
+  int a;                                |
+  int i;                                |  <bb 2> [local count: 214748369]:
+  int _5;                               |  return 14;
+                                        |
+  <bb 2> :                              |}
+  a_3 = 10;                             |
+  i_4 = 0;                              |
+  goto <bb 4>; [INV]                    |~
+                                        |~
+  <bb 3> :                              |~
+  a_7 = a_2 + 1;                        |~
+  i_8 = i_1 + 1;                        |~
+                                        |~
+  <bb 4> :                              |~
+  # i_1 = PHI <i_4(2), i_8(3)>          |~
+  # a_2 = PHI <a_3(2), a_7(3)>          |~
+  if (i_1 <= 3)                         |~
+    goto <bb 3>; [INV]                  |~
+  else                                  |~
+    goto <bb 5>; [INV]                  |~
+                                        |~
+  <bb 5> :                              |~
+  _5 = a_2;                             |~
+  return _5;                            |~
+                                        |~

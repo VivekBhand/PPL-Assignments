@@ -1,0 +1,5 @@
+1.In the file B-3.c, what values  can variable `a' take? Will the `if'
+condition [a< 4] ever be true?
+ANS.
+The variable will take values from 4 to 99.
+the 'if' condition will never be true, as the initialized value of a is 4, causing the if statement to be false. And thus further increments in a will also reflect in FALSE value of 'if' condition.

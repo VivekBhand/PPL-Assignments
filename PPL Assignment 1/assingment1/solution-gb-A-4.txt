@@ -1,0 +1,12 @@
+1.How is array declaration and initialization handled?
+ANS.
+The arrays declared in a single statement are split into multiple separate lines to declare individually and also are initiallized on the same line than at one in single statement.
+
+2.Why does the statement a[i] = b[i] get broken down to two steps with
+ an intermediate temporary?
+ANS.
+As similar case, we encountered with global variable, GIMPLE can't perform two operation i.e. read and assign array at once. Thus a temporary variable is used to solve the conflict.
+
+3.Why are there CLOBBER statements at the end?
+ANS. The CLOBBER statement are used to show that that the array has used up the memory allocated to it. It is out of scope.
+

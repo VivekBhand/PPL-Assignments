@@ -1,0 +1,29 @@
+1.How many  times is the expression  (a + c) computed  in the original
+ code (as seen in the SSA pass)? What about after the FRE pass?
+ANS.
+In the original code(SSA PASS), it was calculated two times, stored in local variables _1 and_3, and then used.
+After using, FRE it was caluted only once, stored in _1, and used in further where it was required, thus eliminating another temporal variable.
+
+2.Have  there been  any more  optimizations  after FRE? How will you
+ check?
+ANS.
+We can check for any optimizations in the code, by referring "B-4.c.*.optimized".
+If there is no change in these both files, there may be no optimizations.
+
+3.Why did  we have  to put a  "return b" in  this assignment? What if
+ "return b" is changed to "return 0"? Will it make any difference?
+ANS.
+The purpose of "return b" was to make the program valid, if program isn't going to return b, then all the operations performed are termed are useless, and thus optimized  to return nothing.
+this is observed when "return b" is replaced with "return 0", all the declarations and processes, are eliminated, only returning 0.
+
+this is the optimized output of program when it replaced by "return 0". the peogram is saved as "pplb-4.c"
+   |;; Function main (main, funcdef_no=12,
+~                                       |decl_uid=3089, cgraph_uid=13, symbol_or
+~                                       |der=12) (executed once)
+~                                       |
+~                                       |main ()
+~                                       |{
+~                                       |  <bb 2> [local count: 1073741824]:
+~                                       |  return 0;
+~                                       |
+~                                       |}

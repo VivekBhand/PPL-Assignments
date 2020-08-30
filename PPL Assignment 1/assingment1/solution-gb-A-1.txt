@@ -1,0 +1,56 @@
+1.How  do the declarationslook in  the  GIMPLE? Specifically,what
+ happens to multiple variables declared and initialized on the same
+ line? What happens to global declaration [int Z]?
+
+ANS.
+i) The each varibles declared are represented on separate lines, with first its datattypes specified, its variable name folowed by a semi-colon(;). Then further in the process they are assigned its given value given in the declaration.
+ii) Even if multple variable may be declared   on same line in the source code, in the gimple tree, they are represented on separate lines.
+iii) In the case of globally declared variable, they are not declared in the tree,and are used directly.
+
+2.How are complex expressions such as [c = a * b +  25] broken down?
+ Can you determine a rule as to when temporary variables  will be
+ introduced?
+ANS.
+  For complex expressions, it is broken down into simple operations and are given a temporary varible to store. then this temporary variable are used to perform complete expression.
+
+3.How are floats/doubles represented in  GIMPLE? What happens when a 
+float/double is assigned to an integer in [Z = r]?
+
+
+ANS.
+i)They are represented in form of scientific notations i.e. 34.5=3.45e+1.
+ii) When it is being assigned to integer, a temporary variable is taken and it is assigned a value of float/double after its type conversion into integar.Then it is assigned to desired variable.
+
+4.How are reads/writes to the global variable  Z performed?Why is
+ there a temporary introduced  for the statement [Z = Z  + 1] but not
+ for the statements [q = Z] or [Z = p]?
+
+
+ANS.
+To assign a local variable, to value of global variable it is done by assignment operator. similarly for assigning value of local variable to global vaiable, it assigned using assignment operator if it is of same data type. But for operations, on global vaariable, it coverted in form of local variables to avoid "GLOBAL=GLOBAL" conflict as gimple statements are unable to perform such statements.
+
+5.Additonal problem done.
+
+int Z;                                  |main ()
+                                        |gimple_bind <
+void main()                             |  int a;
+{                                       |  int b;
+        int a, b, c;                    |  int c;
+        int p = 6;                      |  int p;
+        int q;                          |  int q;
+        double r;                       |  double r;
+                                        |
+        a = 10;                         |  gimple_assign <integer_cst, p, 6, NUL
+        b = 20;                         |L, NULL>
+        c = a * b + 25;                 |  gimple_assign <integer_cst, a, 10, NU
+        p = 6;                          |LL, NULL>
+        q = Z;                          |  gimple_assign <integer_cst, b, 20, NU
+        r = 34.5;                       |LL, NULL>
+        Z = r;                          |  gimple_assign <mult_expr, _1, a, b, N
+        Z = Z + 1;                      |ULL>
+}                                       |  gimple_assign <plus_expr, c, _1, 25,
+                                        |NULL>
+~                                       |  gimple_assign <integer_cst, p, 6, NUL
+~                                       |L, NULL>
+~                                       |@@@
+
